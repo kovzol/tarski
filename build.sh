@@ -141,7 +141,7 @@ if [ "$1" = "clean" ]; then
  rm -fr lib
  popd
  # Final cleanup
- find \( -name '*.o' -or -name '*.or' -or -name '*.a' -or -name '.exe' -or -name '*.wasm' -or -name '*.dll' -or -name '*.so' -or -name '*.jnilib' \) -delete
+ find . \( -name '*.o' -or -name '*.or' -or -name '*.a' -or -name '.exe' -or -name '*.wasm' -or -name '*.dll' -or -name '*.so' -or -name '*.jnilib' \) -delete
  rm -f interpreter/bin/tarski qesource/source/qepcad
  exit 0
  fi
