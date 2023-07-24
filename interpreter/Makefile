@@ -47,8 +47,10 @@ extLibQEPCAD:=  ${qe}/source/qepcad.a \
 		${qe}/extensions/sfext/sfexto.a \
 		${qe}/source/qepcad.a \
 		${qe}/extensions/rend/rendo.a \
-		${qe}/extensions/adj2d/adj2do.a
-# Note that the adj2do extension had to be added twice (in this order).
+		${qe}/extensions/adj2d/adj2do.a \
+    ${qe}/extensions/lift2D/lift2Do.a
+    
+# Note that the adj2do and lif2Do extensions had to be added twice (in this order).
 
 # Find the openssl include/lib folders automatically on a Mac. We assume that Homebrew is already installed.
 ifeq ($(PLATFORM),MAC)
