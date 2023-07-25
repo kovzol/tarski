@@ -80,15 +80,19 @@ class Rend_Sample_2DS : public Rend_Sample
    ** interval in I.  If the sample point is in primitive
    ** representation, A stores the minimal polynomial. 
    ** Otherwise, A stores the whole sample point structure.
+   ** C : the cell data structure that this is the sample
+   **     points for
    *********************************************************/
 private:
+  gcmemloc C; // this is the qepcad cell structure
+  gcmemloc I; // this will be the current best estimate iso interval
   int t;
-  gcmemloc A,I;
+  gcmemloc A; // for an old-style qepcad extended sample, this will be the minpol
 public:
   Rend_Sample_2DS(Word C);
   virtual ~Rend_Sample_2DS();
   virtual Word coordinate(int k);
-    
+  Word getCell() { return C; }
 };
 
 class Rend_Sample_2DC : public Rend_Sample

@@ -115,13 +115,14 @@ Word Rend_Cell::description(Rend_Win &W)
   if (! parent -> section ) {
     
     if (section) {
-
       ///////**** Section over Sector
       if (index == AD2D_Infy || index == AD2D_N_In)
 	V = NIL;
-      else
+      else {
+	//SWRITE("Real section over sector: "); OWRITE(LELTI(QEPCAD_Cell,6)); SWRITE("\n");
 	V = sample -> coordinate(W.precis.y);
-
+      }
+      
       // Add right neighbor
       Rend_Cell* nb = neighbor_l();
       if (nb != NULL)
@@ -142,7 +143,7 @@ Word Rend_Cell::description(Rend_Win &W)
 	Word y = SECOND(LAST(V));
 	r = LIST2(x,y);
       }
-      V = CONC(V,LIST1(r));
+      V = CCONC(V,LIST1(r));
     }
     else {
 
@@ -162,9 +163,15 @@ Word Rend_Cell::description(Rend_Win &W)
 	V = LIST2( parent -> description(W) ,  W.Y.W);
       else if (index == AD2D_N_In)
 	V = LIST2( parent -> description(W) ,  W.y.W);
-      else
+      else {
+	// PushOutputContext(cerr);
+	// SWRITE("Cell: "); OWRITE(LELTI(this->QEPCAD_Cell,INDX)); SWRITE(" ");
+	// PopOutputContext();
 	V = LIST2( parent -> description(W) , 
-		   sample -> coordinate(W.precis.y) ); }
+		   sample -> coordinate(W.precis.y) );
+	// PushOutputContext(cerr); SWRITE("\n\n"); PopOutputContext();
+      }
+      }
     else {
       
       ///////**** Sector over Section
@@ -174,7 +181,6 @@ Word Rend_Cell::description(Rend_Win &W)
   }
     
   return V;
-      
 }
 
 
@@ -244,7 +250,6 @@ void Rend_Cell::out_descrip(Rend_Win &W,ostream &out,Mapper &M)
 
     break;
   }
-
 }
 
 
@@ -575,7 +580,7 @@ void Rend_Cell::out_descrip_svg_standard(Rend_Win &W,ostream &out, Mapper &M, bo
     if (parent -> section) { // OVER SECTION
       if (section) {
 	Word V = description(W);
-	out << "<circle cx=\"";
+	out << "<circle id=\"" << svgIdChooser(*this) << "\" " << "cx=\"";
 	M.Xwrite(FIRST(V),out,p);
 	out << "\" cy=\"";
 	M.Ywrite(SECOND(V),out,p);
