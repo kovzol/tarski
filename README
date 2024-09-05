@@ -50,6 +50,9 @@
       - openssl-devel
       - libreadline-devel
       - libcrypt-devel
+      Tarski can also be built on Wine/MSYS2. See https://matek.hu/zoltan/blog-20240822.php?t=d
+      for the prerequisites. Then install OpenJDK from https://jdk.java.net/22/,
+      and unzip the downloaded .zip file under C:\Program Files\OpenJDK.
 
       Dependencies for a JNI build
       - Either a Linux, a Mac or a Windows MSYS2/CLANG* platform
