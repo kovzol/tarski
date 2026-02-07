@@ -42,8 +42,8 @@ namespace SMTLib
 
   class Lexer
   {
-    static const char none = EOF; 
-    char lookahead;
+    static constexpr int none = EOF;
+    int lookahead;
     std::istream* pin;
     int lineNum, colPos;
   public:
@@ -57,7 +57,7 @@ namespace SMTLib
       while(1)
       {
 	// get next char
-	char nc = lookahead; if (lookahead != none) lookahead = none; else nc = pin->get(); 
+	int nc = lookahead; if (lookahead != none) lookahead = none; else nc = pin->get(); 
 	colPos++;
 
 	// deal with the comment character
