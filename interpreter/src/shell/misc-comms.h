@@ -72,6 +72,43 @@ namespace tarski {
     string name() { return "sub-disc-seq"; }
   };
 
-}
+  class CommNullifySys : public EICommand
+  {
+  public:
+    CommNullifySys(NewEInterpreter* ptr) : EICommand(ptr) { }
+    SRef execute(SRef input, vector<SRef> &args);
+    
+    string testArgs(vector<SRef> &args) {
+      return requirepre(args,_alg,_lis);
+    }
+    string doc() 
+    {
+      return "Returns formula F that is true exactly when all coefficients of P as a polynomial in v are zero.\
+Example: ";
+    }
+    string usage() { return "(nullify-sys P v)"; }
+    string name() { return "nullify-sys"; }
+  };
 
+  class CommClear : public EICommand
+  {
+  public:
+    CommClear(NewEInterpreter* ptr) : EICommand(ptr) { }
+    SRef execute(SRef input, vector<SRef> &args);
+    string testArgs(vector<SRef> &args) { return ""; }
+    string doc() 
+    {
+      return "Clears non-constant denominators in an uninterpreted formula to create a Tarski formula.  An \
+optional second argument is a symbol indicating what process is to be used: 'fair for the process that \
+preserves fair-SATness, 'noguard for clearing without guards, and 'naive for producing the conjunction of \
+the division-free atom with p /= 0 for each denominator polynomial p.  The default behavior when no second \
+argument is present is 'fair.";
+    }
+    string usage() { return "(clear F) or (clear F ['fair|'noguard|'naive]"; }
+    string name() { return "clear"; }
+  };
+
+
+  
+}
 #endif
