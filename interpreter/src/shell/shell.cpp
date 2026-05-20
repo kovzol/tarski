@@ -336,11 +336,13 @@ TARSKIINIT(int numcells, int timeout) {
   argv[0] = s0; argv[1] = s1; argv[2] = s2; argv[3] = s3; argv[4] = s4;
   int ac;
   char **av;
-  cout << "Welcome to tarski " << tarski::tarskiVersion << " " << tarski::tarskiVersionDate << "." << endl;
-  cout << "Initializing with numcells " << numcells << " and timeout " << timeout << "." << endl;
+  // Don't print anything. This would be annoying when silent initialization is needed.
+  // cout << "Welcome to tarski " << tarski::tarskiVersion << " " << tarski::tarskiVersionDate << "." << endl;
+  // cout << "Initializing with numcells " << numcells << " and timeout " << timeout << "." << endl;
   SacModInit(argc,argv,ac,av,"Saclib","","",topOfTheStack);
   timeout_param = timeout;
-  cout << "Successful initialization." << endl;
+  // cout << "Successful initialization." << endl;
+  // Instead, issue a (version) command to obtain data on demand.
   delete [] argv;
 
   srand(time(0));
