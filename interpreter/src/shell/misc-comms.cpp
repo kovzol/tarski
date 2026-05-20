@@ -108,8 +108,40 @@ namespace tarski {
     return res;
   }
 
+  SRef CommNullifySys::execute(SRef input, vector<SRef> &args) {
+    // Get polynomial p and varset S
+    AlgRef A = args[0]->alg();
+    IntPolyRef p = A->getVal();
+    LisRef vars = args[1]->lis();
+    VarSet S;
+    for(int i = 0; i < vars->length(); ++i)  {
+      if (vars->get(i)->type() != _sym) { 
+	return new ErrObj("Function 'nullify-sys' received as 2nd argument a list that contains non-symbol element '" + vars->get(i)->toStr() + "'."); 
+      }
+      S = S + interp->PM->getVar(vars->get(i)->sym()->val);
+    }
 
-  
-  
-  
+    // (nullify-sys [ a x y^2 + y x - (a + y)] '(x))
+    
+    return new TarObj(nullifySys(p,S,interp->PM));
+  }
+
+  SRef CommClear::execute(SRef input, vector<SRef> &args) {
+    if (args.size() == 0) return new ErrObj("Function 'clear' requires arguments!");
+    if (!args[0]->tar().is_null()) return args[0];
+    int clearProcess = 0;
+    if (args.size() > 1) {
+      SymRef s = args[1]->sym();
+      const string msg = "Second argument to function 'clear' must be 'fair, 'noguard or 'naive.";
+      if (s.is_null()) { return new ErrObj(msg); }
+      if (s->getVal() == "fair") clearProcess = 0;
+      else if (s->getVal() == "noguard") clearProcess = 1;
+      else if (s->getVal() == "naive") clearProcess = 2;
+      else { return new ErrObj(msg); }
+    }
+
+    UifRef F = args[0]->uif();
+    if (F.is_null()) return new ErrObj("Function 'clear' can only be called on objects of type uif (or tar).");
+    return F->clear(clearProcess);
+  }
 }

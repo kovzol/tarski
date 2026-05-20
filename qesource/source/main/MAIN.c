@@ -98,7 +98,12 @@ static void init_SIGINT_handler()
 static int sendSignalAfterInterval(int seconds, int signum)
 {
 #if defined(__APPLE__) || defined(__MINGW32__) || defined(_EMCC2_)
+#ifdef __APPLE__
+  alarm(seconds);
+  return 0;
+#else
   return 1;
+#endif
 #else
   /* Create timer */
   timer_t timerid;

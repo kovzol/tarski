@@ -25,7 +25,7 @@ inline std::string toString(void* i) { std::ostringstream sout; sout << i; retur
 
 // type codes
 const int _void = 0, _sym = 1, _num = 2, _str = 3, _alg = 4, _tar = 5, _lis = 6, _fun = 7, 
-  _clo = 8, _ext = 9, _boo = 10;
+  _clo = 8, _ext = 9, _boo = 10, _uif = 11; // uif = uninterpreted formula
 const int _err = -1;
 
 // builtin function codes (0 means not builtin, < 0 means extensions)
@@ -48,6 +48,7 @@ class FunObj; typedef GC_Hand<FunObj> FunRef;
 class CloObj; typedef GC_Hand<CloObj> CloRef;
 class ExtObj; typedef GC_Hand<ExtObj> ExtRef;
 class BooObj; typedef GC_Hand<BooObj> BooRef;
+class UifObj; typedef GC_Hand<UifObj> UifRef;
 
 class SObj : public GC_Obj
 {
@@ -65,6 +66,7 @@ public:
   virtual FunRef fun() { return 0; }
   virtual CloRef clo() { return 0; }
   virtual ExtRef ext() { return 0; }
+  virtual UifRef uif() { return 0; }
   virtual std::string toStr() { return ":void"; }
   virtual void display(std::ostream& out) { }
   virtual int length() { return -1; }
@@ -266,11 +268,15 @@ public:
     // there's some efficiency to it.
     TarRef y = x->tar(); 
     if (y.is_null()) { return new BooObj(false); }
-    TFormRef A; { RawNormalizer R(defaultNormalizer); R(this->val); A = R.getRes(); }
-    TFormRef B; { RawNormalizer R(defaultNormalizer); R(y->val); B = R.getRes(); }
+    Level1 basicNormalizer;	  
+    TFormRef A; { RawNormalizer R(basicNormalizer); R(this->val); A = R.getRes(); }
+    TFormRef B; { RawNormalizer R(basicNormalizer); R(y->val); B = R.getRes(); }
+    // A->write(true); cerr << endl;
+    // B->write(true); cerr << endl;
+    // I think I need the 'true' argument to make this work right!
     std::ostringstream s1, s2;
-    PushOutputContext(s1); A->write(); PopOutputContext();
-    PushOutputContext(s2); B->write(); PopOutputContext();
+    PushOutputContext(s1); A->write(true); PopOutputContext();
+    PushOutputContext(s2); B->write(true); PopOutputContext();
     return new BooObj(s1.str() == s2.str());
   }
 };
@@ -316,6 +322,14 @@ public:
   }
 };
 
+
+
+}
+#include "../algparse/uninterpform.h"
+namespace tarski {
+
+
+  
 /**************************************************************************
  * BEGIN: Type extension
  **************************************************************************/
