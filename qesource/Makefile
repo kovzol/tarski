@@ -16,7 +16,7 @@ FLAGSo = -g -D__CORRECT_ISO_CPP_STRINGS_H_PROTO -fPIC -O3
 
 FLAGSd = -g -D__CORRECT_ISO_CPP_STRINGS_H_PROTO -fPIC
 
-ifdef STATIC
+ifeq ($(STATIC),1)
 FLAGSo += -static
 FLAGSd += -static
 endif
