@@ -282,7 +282,7 @@ public:
 	  + p->getPolyManagerPtr()->getName(*itr) + " because of extended atom " + toString(TFormRef(p))
 	  + ", which conflicts with the quantifier block structure.";
       }
-      etrequires[z] = etrequires[z] | *itr;
+      etrequires[z] = etrequires[z] | VarSet(*itr);
     }
   }
   void action(TAndObj* p) {
