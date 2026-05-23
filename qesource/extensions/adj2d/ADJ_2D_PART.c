@@ -79,7 +79,6 @@ Step5: /* Clean up evidence of "shadow stacks". */
        Sol = LIST1(Sol);
 
 Return: /* Prepare to return. */
-       SWRITE(">>>\n"); OWRITE(Sol); SWRITE("\n<<<\n"); 
        return Sol;
 }
 

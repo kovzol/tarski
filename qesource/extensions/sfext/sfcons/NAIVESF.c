@@ -39,7 +39,6 @@ Step1: /* Construct I, a set of implicants covering L_T. */
        c = FIRST(L);
        if (FMACELLEVAL(COMP(OROP,I),c,P) != TRUE) {
 	 I = COMP(IMPCONS(c,L_F,L_A,P),I);
-	 SWRITE("new I elt = "); OWRITE(FIRST(I)); SWRITE("\n");
        }
      }
 Step2: /* Choose small subset of I that covers L_T. */
